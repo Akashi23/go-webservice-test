@@ -21,3 +21,8 @@ This is a simple web service for checking IIN (Individual Identification Number)
 - `make down` - stop the docker container
 - `make clean-compose` - remove the docker container
 
+## API Endpoints
+- `GET /api/iin_check/{iin}` - Get IIN information
+- `POST /api/people/info` - Create citizen with IIN
+- `GET /api/people/info?name=` - Get all citizens by name
+- `GET /api/people/info/iin/{iin}` - Get citizen by IIN

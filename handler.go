@@ -123,9 +123,6 @@ func GetCitizens(c echo.Context) error {
 	return c.JSON(200, citizens)
 }
 
-// I generalize this handler because we can search by name or phone if requierments will be changed
-// And this handler is more flexible for adding new search parameters
-
 // Healthcheck godoc
 // @Summary ping example
 // @Schemes

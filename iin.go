@@ -70,6 +70,12 @@ func GetGender(iin string) (string, error) {
 	return "", fmt.Errorf("invalid IIN 7's digit")
 }
 
+// isValidChecksum checks if the checksum of the IIN is valid
+// The checksum is calculated by multiplying each digit of the IIN by a weight
+// and taking the remainder of the sum of the products divided by 11
+// If the remainder is 10, the process is repeated with different weights
+// If second time the remainder is 10, it is replaced with 0
+// The last digit of the IIN is the checksum
 func isValidChecksum(iin string) bool {
 	weights := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11}
 	sum := 0

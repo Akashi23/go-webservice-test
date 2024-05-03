@@ -28,3 +28,16 @@ services:
       - POSTGRES_DB=go_app
       - POSTGRES_USER=docker
       - POSTGRES_PASSWORD=password
+
+  proxy:
+    image: nginx
+    container_name: proxy
+    volumes:
+      - type: bind
+        source: ./proxy/nginx.conf
+        target: /etc/nginx/conf.d/default.conf
+        read_only: true
+    ports:
+      - 80:80
+    depends_on: 
+      - go-api

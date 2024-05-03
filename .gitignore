@@ -22,3 +22,6 @@ go.work
 
 # Db file
 *.db
+
+# postgres data
+.dbdata

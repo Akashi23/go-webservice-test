@@ -10,7 +10,6 @@ on:
     branches: [ "main" ]
 
 jobs:
-
   lint:
     runs-on: ubuntu-latest
     steps:
@@ -25,6 +24,7 @@ jobs:
       uses: golangci/golangci-lint-action@v5
 
   build:
+    needs: lint
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
@@ -38,6 +38,7 @@ jobs:
       run: make build
 
   test:
+    needs: build
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
@@ -51,6 +52,7 @@ jobs:
       run: make test
 
   deploy:
+    needs: test
     name: Deploy Ansible
     runs-on: ubuntu-latest
     steps:
@@ -61,7 +63,7 @@ jobs:
         uses: dawidd6/action-ansible-playbook@v2
         with:
           # Required, playbook filepath
-          playbook: playbook.yml
+          playbook: configure.yml
           # Optional, directory where playbooks live
           directory: ./ansible/
           # Optional, SSH private key

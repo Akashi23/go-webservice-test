@@ -1,10 +1,12 @@
 package main
 
 import (
+	"fmt"
 	"log"
+	"os"
 	"time"
 
-	"gorm.io/driver/sqlite"
+	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
@@ -22,8 +24,16 @@ func ConnectDatabase() {
 	var database *gorm.DB
 	var err error
 
+	db_hostname := os.Getenv("POSTGRES_HOST")
+	db_name := os.Getenv("POSTGRES_DB")
+	db_user := os.Getenv("POSTGRES_USER")
+	db_pass := os.Getenv("POSTGRES_PASSWORD")
+	db_port := os.Getenv("POSTGRES_PORT")
+
+	dbURl := fmt.Sprintf("postgres://%s:%s@%s:%s/%s", db_user, db_pass, db_hostname, db_port, db_name)
+
 	for i := 1; i <= 3; i++ {
-		database, err = gorm.Open(sqlite.Open("inner.db"), &gorm.Config{})
+		database, err = gorm.Open(postgres.Open(dbURl), &gorm.Config{})
 		if err == nil {
 			break
 		} else {

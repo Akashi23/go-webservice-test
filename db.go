@@ -41,7 +41,10 @@ func ConnectDatabase() {
 			time.Sleep(3 * time.Second)
 		}
 	}
-	database.AutoMigrate(&Citizen{})
+	err = database.AutoMigrate(&Citizen{})
+	if err != nil {
+		log.Fatalf("Failed to migrate database: %v", err)
+	}
 
 	DB = database
 }

@@ -6,12 +6,6 @@ import (
 	echoSwagger "github.com/swaggo/echo-swagger"
 )
 
-// @title API
-// @version 1.0
-// @description This is a sample server.
-// @termsOfService http://swagger.io/terms/
-
-// @BasePath /
 func InitRouter() *echo.Echo {
 	e := echo.New()
 
@@ -22,14 +16,16 @@ func InitRouter() *echo.Echo {
 		AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept},
 	}))
 	e.Use(middleware.RateLimiter(middleware.NewRateLimiterMemoryStore(100)))
-	e.GET("/swagger/*", echoSwagger.WrapHandler)
-	e.GET("/health", Healthcheck)
 
-	e.GET("/iin_check/:iin", IinVerification)
+	api := e.Group("/api")
+	api.GET("/swagger/*", echoSwagger.WrapHandler)
+	api.GET("/health", Healthcheck)
 
-	e.POST("/people/info", AddCitizen)
-	e.GET("/people/info/iin/:iin", GetCitizenByIin)
-	e.GET("/people/info", GetCitizens)
+	api.GET("/iin_check/:iin", IinVerification)
+
+	api.POST("/people/info", AddCitizen)
+	api.GET("/people/info/iin/:iin", GetCitizenByIin)
+	api.GET("/people/info", GetCitizens)
 
 	// e.Use(middleware.KeyAuthWithConfig(middleware.KeyAuthConfig{ // If we need Simple Auth
 	// 	KeyLookup: "query:api-key",

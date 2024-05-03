@@ -10,6 +10,12 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+// @title API
+// @version 1.0
+// @description This is a sample server.
+// @termsOfService http://swagger.io/terms/
+
+// @BasePath /api
 func main() {
 	ConnectDatabase()
 	e := InitRouter()

@@ -1,0 +1,111 @@
+definitions:
+  main.Citizen:
+    properties:
+      iin:
+        type: string
+      name:
+        type: string
+      phone:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /health:
+    get:
+      consumes:
+      - application/json
+      description: do ping
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: ping example
+      tags:
+      - example
+  /iin_check/:iin:
+    get:
+      description: Verify IIN
+      parameters:
+      - description: IIN
+        in: path
+        name: iin
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get sex and date of birth by IIN
+      tags:
+      - iin
+  /people/info:
+    get:
+      description: Get citizens by name
+      parameters:
+      - description: Name
+        in: query
+        name: name
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/main.Citizen'
+            type: array
+      summary: Get citizens by name
+      tags:
+      - people
+    post:
+      consumes:
+      - application/json
+      description: Add citizen
+      parameters:
+      - description: Citizen
+        in: body
+        name: citizen
+        required: true
+        schema:
+          $ref: '#/definitions/main.Citizen'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Add citizen
+      tags:
+      - people
+  /people/info/iin/:iin:
+    get:
+      description: Get citizen by IIN
+      parameters:
+      - description: IIN
+        in: path
+        name: iin
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/main.Citizen'
+      summary: Get citizen by IIN
+      tags:
+      - people
+swagger: "2.0"

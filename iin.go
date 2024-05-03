@@ -57,7 +57,7 @@ func GetGender(iin string) (string, error) {
 		return "", err
 	}
 
-	if digit < 1 && digit > 6 {
+	if digit < 1 || digit > 6 {
 		return "", fmt.Errorf("invalid IIN 7's digit")
 	}
 

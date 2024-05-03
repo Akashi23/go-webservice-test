@@ -3,8 +3,15 @@ package main
 import (
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
+	echoSwagger "github.com/swaggo/echo-swagger"
 )
 
+// @title API
+// @version 1.0
+// @description This is a sample server.
+// @termsOfService http://swagger.io/terms/
+
+// @BasePath /
 func InitRouter() *echo.Echo {
 	e := echo.New()
 
@@ -15,13 +22,11 @@ func InitRouter() *echo.Echo {
 		AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept},
 	}))
 	e.Use(middleware.RateLimiter(middleware.NewRateLimiterMemoryStore(100)))
-
-	// Health check
-	e.GET("/health", func(c echo.Context) error {
-		return c.JSON(200, map[string]string{"status": "ok"})
-	})
+	e.GET("/swagger/*", echoSwagger.WrapHandler)
+	e.GET("/health", Healthcheck)
 
 	e.GET("/iin_check/:iin", IinVerification)
+
 	e.POST("/people/info", AddCitizen)
 	e.GET("/people/info/iin/:iin", GetCitizenByIin)
 	e.GET("/people/info", GetCitizens)

@@ -3,6 +3,10 @@ include .env-test
 export $(shell sed 's/=.*//' .env-test)
 DOCKER_IMAGE_NAME=go-api
 
+setup:
+	go install github.com/swaggo/swag/cmd/swag@latest
+	swag init
+
 build:
 	go build -o bin/main .
 
@@ -18,7 +22,8 @@ build-docker:
 run-db:
 	docker-compose up -d db
 	
-up:
+up:	
+	docker-compose build
 	docker-compose up -d
 
 down:

@@ -72,7 +72,7 @@ jobs:
           options: |
             --inventory inventory
 
-      - name: Run playbook
+      - name: Run Deploy
         uses: dawidd6/action-ansible-playbook@v2
         with:
           # Required, playbook filepath

@@ -11,4 +11,4 @@
         update: yes
     
     - name: Docker compose
-      shell: make up
+      shell: docker-compose build && docker-compose up -d

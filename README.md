@@ -1,5 +1,7 @@
 # go-webservice-test
 
+[![Go-App-CI/CD](https://github.com/Akashi23/go-webservice-test/actions/workflows/go.yaml/badge.svg)](https://github.com/Akashi23/go-webservice-test/actions/workflows/go.yaml)
+
 ## Description
 This is a simple web service for checking IIN (Individual Identification Number) validity and creating, getting with IINs.
 

@@ -11,4 +11,4 @@
         update: yes
     
     - name: Docker compose
-      shell: cd go-webservice-test && docker compose build && docker compose up -d
+      shell: cd /go-webservice-test && docker compose build && docker compose up -d

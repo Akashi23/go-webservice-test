@@ -9,8 +9,22 @@ build:
 run: build
 	./bin/main
 
+test:
+	go test -v ./... -cover
+
 build-docker:
 	docker build -t $(DOCKER_IMAGE_NAME) .
 
-run-docker-compose:
+run-db:
+	docker-compose up -d db
+	
+up:
 	docker-compose up -d
+
+down:
+	docker-compose down
+
+clean-compose:
+	docker-compose down;
+	docker image rm $(DOCKER_IMAGE_NAME)
+	rm -rf .dbdata

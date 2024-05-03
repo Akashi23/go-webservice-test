@@ -15,12 +15,12 @@ func IinVerification(c echo.Context) error {
 		return c.JSON(200, map[string]bool{"correct": false})
 	}
 
-	dob, err := GetDateOfBirth(iin)
+	gender, err := GetGender(iin)
 	if err != nil {
 		return c.JSON(200, map[string]bool{"correct": false})
 	}
 
-	gender, err := GetGender(iin)
+	dob, err := GetDateOfBirth(iin)
 	if err != nil {
 		return c.JSON(200, map[string]bool{"correct": false})
 	}

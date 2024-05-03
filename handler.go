@@ -5,6 +5,14 @@ import (
 	"github.com/nyaruka/phonenumbers"
 )
 
+// IinVerification godoc
+// @Summary Get sex and date of birth by IIN
+// @Description Verify IIN
+// @Tags iin
+// @Produce json
+// @Param iin path string true "IIN"
+// @Success 200 {object} map[string]interface{}
+// @Router /iin_check/:iin [get]
 func IinVerification(c echo.Context) error {
 	iin := c.Param("iin")
 	if iin == "" {
@@ -32,6 +40,15 @@ func IinVerification(c echo.Context) error {
 	})
 }
 
+// AddCitizen godoc
+// @Summary Add citizen
+// @Description Add citizen
+// @Tags people
+// @Accept json
+// @Produce json
+// @Param citizen body Citizen true "Citizen"
+// @Success 200 {object} map[string]interface{} "success"
+// @Router /people/info [post]
 func AddCitizen(c echo.Context) error {
 	citizen := new(Citizen)
 	if err := c.Bind(citizen); err != nil {
@@ -54,6 +71,14 @@ func AddCitizen(c echo.Context) error {
 	return c.JSON(200, map[string]interface{}{"success": true})
 }
 
+// GetCitizenByIin godoc
+// @Summary Get citizen by IIN
+// @Description Get citizen by IIN
+// @Tags people
+// @Produce json
+// @Param iin path string true "IIN"
+// @Success 200 {object} Citizen
+// @Router /people/info/iin/:iin [get]
 func GetCitizenByIin(c echo.Context) error {
 	iin := c.Param("iin")
 	if iin == "" {
@@ -72,8 +97,14 @@ func GetCitizenByIin(c echo.Context) error {
 	return c.JSON(200, citizen)
 }
 
-// I generalize this handler because we can search by name or phone if requierments will be changed
-// And this handler is more flexible for adding new search parameters
+// GetCitizens godoc
+// @Summary Get citizens by name
+// @Description Get citizens by name
+// @Tags people
+// @Produce json
+// @Param name query string true "Name"
+// @Success 200 {object} []Citizen
+// @Router /people/info [get]
 func GetCitizens(c echo.Context) error {
 	name := c.QueryParam("name")
 	if name == "" {
@@ -90,4 +121,20 @@ func GetCitizens(c echo.Context) error {
 	}
 
 	return c.JSON(200, citizens)
+}
+
+// I generalize this handler because we can search by name or phone if requierments will be changed
+// And this handler is more flexible for adding new search parameters
+
+// Healthcheck godoc
+// @Summary ping example
+// @Schemes
+// @Description do ping
+// @Tags example
+// @Accept json
+// @Produce json
+// @Success 200 {string} ok
+// @Router /health [get]
+func Healthcheck(c echo.Context) error {
+	return c.JSON(200, map[string]string{"status": "ok"})
 }

@@ -1,0 +1,85 @@
+# This workflow will build a golang project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-go
+
+name: Go
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Go
+      uses: actions/setup-go@v5
+      with:
+        go-version: '1.22.2'
+
+    - name: golangci-lint
+      uses: golangci/golangci-lint-action@v5
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Go
+      uses: actions/setup-go@v5
+      with:
+        go-version: '1.22.2'
+
+    - name: Build
+      run: make build
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Go
+      uses: actions/setup-go@v5
+      with:
+        go-version: '1.22.2'
+
+    - name: Test
+      run: make test
+
+  deploy:
+    name: Deploy Ansible
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout'
+        uses: actions/checkout@master
+
+      - name: Run configure
+        uses: dawidd6/action-ansible-playbook@v2
+        with:
+          # Required, playbook filepath
+          playbook: playbook.yml
+          # Optional, directory where playbooks live
+          directory: ./ansible/
+          # Optional, SSH private key
+          key: ${{ secrets.SSH_INFRA }}
+          # Optional, literal inventory file contents
+          options: |
+            --inventory inventory
+
+      - name: Run playbook
+        uses: dawidd6/action-ansible-playbook@v2
+        with:
+          # Required, playbook filepath
+          playbook: deploy.yml
+          # Optional, directory where playbooks live
+          directory: ./ansible/
+          # Optional, SSH private key
+          key: ${{ secrets.SSH_INFRA }}
+          # Optional, literal inventory file contents
+          options: |
+            --inventory inventory
+    

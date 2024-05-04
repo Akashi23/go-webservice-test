@@ -107,7 +107,7 @@ func GetCitizenByIin(c echo.Context) error {
 // @Router /people/info [get]
 func GetCitizens(c echo.Context) error {
 	name := c.QueryParam("name")
-	if name == "" {
+	if name == "" { // if name is empty we might return all citizens if requirements will be changed
 		return c.JSON(400, map[string]string{"error": "name query parameter is required"})
 	}
 
